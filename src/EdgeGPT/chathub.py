@@ -175,13 +175,19 @@ class ChatHub:
                             and not draw
                             and not raw
                         ):
-                            resp_txt = result_text + response["arguments"][0][
+                            resp_messages = response["arguments"][0][
                                 "messages"
-                            ][0]["adaptiveCards"][0]["body"][0].get("text", "")
-                            resp_txt_no_link = result_text + response["arguments"][0][
-                                "messages"
-                            ][0].get("text", "")
-                            if response["arguments"][0]["messages"][0].get(
+                            ][0]
+                            if "adaptiveCards" in resp_messages:
+                                resp_txt = result_text + resp_messages["adaptiveCards"][0]["body"][0].get("text", "")
+                            else:
+                                for msg in response["arguments"][0]['messages']:
+                                    if "adaptiveCards" in msg:
+                                        resp_messages = msg
+                                        break
+                            
+                            resp_txt_no_link = result_text + resp_messages.get("text", "")
+                            if resp_messages.get(
                                 "messageType",
                             ):
                                 resp_txt = (
