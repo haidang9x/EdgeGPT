@@ -187,7 +187,8 @@ class ChatHub:
                                         resp_txt = result_text + resp_messages["adaptiveCards"][0]["body"][0].get("text", "")
                                         break
                             
-                            resp_txt_no_link = result_text + resp_messages.get("text", "")
+                            if "adaptiveCards" in resp_messages:
+                                resp_txt_no_link = result_text + resp_messages.get("text", "")
                             if resp_messages.get(
                                 "messageType",
                             ) and "adaptiveCards" in resp_messages:
