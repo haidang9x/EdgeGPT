@@ -192,14 +192,14 @@ class ChatHub:
                             ):
                                 resp_txt = (
                                     resp_txt
-                                    + response["arguments"][0]["messages"][0][
+                                    + resp_messages[
                                         "adaptiveCards"
                                     ][0]["body"][0]["inlines"][0].get("text")
                                     + "\n"
                                 )
                                 result_text = (
                                     result_text
-                                    + response["arguments"][0]["messages"][0][
+                                    + resp_messages[
                                         "adaptiveCards"
                                     ][0]["body"][0]["inlines"][0].get("text")
                                     + "\n"
