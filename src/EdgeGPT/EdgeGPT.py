@@ -116,7 +116,7 @@ class Chatbot:
         async for final, response in self.chat_hub.ask_stream(
             prompt=prompt,
             conversation_style=conversation_style,
-            wss_link=wss_link,
+            # wss_link=wss_link,
             webpage_context=webpage_context,
             search_result=search_result,
             locale=locale,

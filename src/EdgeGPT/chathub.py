@@ -4,6 +4,8 @@ import os
 import ssl
 import sys
 from time import time
+import urllib.parse
+
 from typing import Generator
 from typing import List
 from typing import Union
@@ -38,8 +40,9 @@ class ChatHub:
         self.request: ChatHubRequest
         self.loop: bool
         self.task: asyncio.Task
+        print('conversation ============ ', conversation.__dict__)
         self.request = ChatHubRequest(
-            conversation_signature=conversation.struct["conversationSignature"],
+            conversation_signature=conversation.struct["conversationSignature"] if 'conversationSignature' in conversation.struct else None,
             client_id=conversation.struct["clientId"],
             conversation_id=conversation.struct["conversationId"],
         )
@@ -104,8 +107,9 @@ class ChatHub:
                 cookies[cookie["name"]] = cookie["value"]
         self.aio_session = aiohttp.ClientSession(cookies=cookies)
         # Check if websocket is closed
+        wss_url = f'wss://sydney.bing.com/sydney/ChatHub?sec_access_token={urllib.parse.quote_plus(self.request.conversation_signature)}'
         wss = await self.aio_session.ws_connect(
-            wss_link or "wss://sydney.bing.com/sydney/ChatHub",
+            wss_link or wss_url,
             ssl=ssl_context,
             headers=HEADERS,
             proxy=self.proxy,
@@ -222,6 +226,7 @@ class ChatHub:
                         response["item"]["messages"][1]["adaptiveCards"][0]["body"][0][
                             "text"
                         ] = (cache + resp_txt)
+                    # print('response--response:', response)
                     if (
                         response["item"]["messages"][-1]["contentOrigin"] == "Apology"
                         and resp_txt

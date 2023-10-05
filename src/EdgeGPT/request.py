@@ -33,10 +33,25 @@ class ChatHubRequest:
         locale: str = guess_locale(),
     ) -> None:
         options = [
+            "nlu_direct_response_filter",
             "deepleo",
-            "enable_debug_commands",
             "disable_emoji_spoken_text",
+            "responsible_ai_policy_235",
             "enablemm",
+            "dv3sugg",
+            "iyxapbing",
+            "iycapbing",
+            "h3imaginative",
+            "clgalileo",
+            "gencontentv3",
+            "bof108t525",
+            "log2sph",
+            "savememfilter",
+            "uprofgen",
+            "uprofupd",
+            "uprofupdasy",
+            "vidsumsnip",
+            "eredirecturl",
         ]
         if conversation_style:
             if not isinstance(conversation_style, ConversationStyle):

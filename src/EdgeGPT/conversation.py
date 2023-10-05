@@ -53,6 +53,7 @@ class Conversation:
             print(response.text)
             print(response.url)
             raise Exception("Authentication failed")
+        print('self.struct.init', response.json())
         try:
             self.struct = response.json()
         except (json.decoder.JSONDecodeError, NotAllowedToAccess) as exc:
@@ -100,9 +101,9 @@ class Conversation:
             cookies=formatted_cookies,
         ) as client:
             # Send GET request
+            clUrl = os.environ.get("BING_PROXY_URL") or "https://www.bing.com/turing/conversation/create?bundleVersion=1.1055.6"
             response = await client.get(
-                url=os.environ.get("BING_PROXY_URL")
-                or "https://www.bing.com/turing/conversation/create",
+                url=clUrl,
                 follow_redirects=True,
             )
         if response.status_code != 200:
@@ -110,8 +111,12 @@ class Conversation:
             print(response.text)
             print(response.url)
             raise Exception("Authentication failed")
+        print('self.struct.create', response.json())
         try:
+            conversationSignature = response.headers.get('X-Sydney-EncryptedConversationSignature', '')
             self.struct = response.json()
+            if conversationSignature:
+                self.struct['conversationSignature'] = conversationSignature
         except (json.decoder.JSONDecodeError, NotAllowedToAccess) as exc:
             print(response.text)
             raise Exception(
