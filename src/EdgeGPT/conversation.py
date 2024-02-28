@@ -111,7 +111,7 @@ class Conversation:
             print(response.text)
             print(response.url)
             raise Exception("Authentication failed")
-        print('self.struct.create', response.json())
+        #print('self.struct.create', response.json())
         try:
             conversationSignature = response.headers.get('X-Sydney-EncryptedConversationSignature', '')
             self.struct = response.json()
