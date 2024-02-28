@@ -40,7 +40,7 @@ class ChatHub:
         self.request: ChatHubRequest
         self.loop: bool
         self.task: asyncio.Task
-        print('conversation ============ ', conversation.__dict__)
+        #print('conversation ============ ', conversation.__dict__)
         self.request = ChatHubRequest(
             conversation_signature=conversation.struct["conversationSignature"] if 'conversationSignature' in conversation.struct else None,
             client_id=conversation.struct["clientId"],
